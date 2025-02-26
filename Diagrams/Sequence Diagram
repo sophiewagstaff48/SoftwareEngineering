@@ -1,0 +1,40 @@
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 20
+skinparam maxmessagesize 60
+skinparam sequenceParticipant underline
+
+actor User
+participant "Account" as A
+participant "System" as B
+participant "Openverse API" as C
+
+User -> A: Log in
+activate A
+A --> User: Authentification Response
+activate User
+
+User -> B: Search
+activate B
+
+B -> B: Filter Search
+
+B -> C: Search
+activate C
+C --> B: Database Response
+deactivate C
+
+B --> A: Add to search history
+
+B --> User: Search Results
+deactivate B
+
+User -> A: View Search History
+A -> A: Manage Search History
+
+A --> User: Display history
+
+A -> User: Log out
+deactivate A
+deactivate User
+@enduml
