@@ -1,1 +1,97 @@
-Class Diagram
+@startuml
+left to right direction
+package "User Interface" {
+class GUI {
++displaySearchBar()
++displayFilterOptions()
++displayMediaResults()
++displaySearchHistory()
+}
+
+class SearchBar{
++enterQuery()
++applyFilters()
+}
+
+class FilterOptions{
++selectFilterType()
+}
+
+class MediaDisplay{
++showMediaResults()
++playMedia()
+}
+
+class SearchHistory{
++saveSearchHistory()
++viewSearchHistory()
++deleteSearchHistory()
+}
+
+GUI --> SearchBar
+GUI --> FilterOptions
+GUI --> MediaDisplay
+GUI --> SearchHistory
+}
+
+package "Backend Layer" {
+class APIServer{
++handleRequests()
++authenticateUser()
++retrieveMedia()
++storeSearchHistory()
+}
+
+class AuthentificationService {
++registerUser()
++loginUser()
++logoutUser()
++validateCredentials()
+}
+
+class MediaSearchService {
++searchMedia()
++applyFilters()
+}
+
+class DataHandlingService {
++encryptData()
++storeUserData()
++retrieveUserData()
++saveSearchHistory()
+}
+
+APIServer --> AuthentificationService
+APIServer --> MediaSearchService
+APIServer --> DataHandlingService
+}
+
+package "OpenVerse API Integration" {
+class OpenVerseAPI {
++fetchMedia()
+}
+}
+
+package "Database" {
+class UserData {
++saveUserProfile()
++updateUserProfile()
++storeCredentials()
+}
+
+class RecentSearchHistory {
++saveSearch()
++retreiveSearchHistory()
+}
+
+UserData --> APIServer
+RecentSearchHistory --> APIServer
+}
+
+APIServer --> OpenVerseAPI : communicates with
+APIServer --> UserData : stores/retreives user data
+APIServer --> RecentSearchHistory : stores/retreives search history
+
+GUI --> APIServer
+
+@enduml
