@@ -1,0 +1,47 @@
+@startuml
+left to right direction
+
+package "User Interface" {
+[GUI]
+[Search Bar]
+[Filter Searches]
+[Media Display]
+[Search History]
+
+[GUI] --> [Search Bar]
+[GUI] --> [Filter Searches]
+[GUI] --> [Media Display]
+[GUI] --> [Search History]
+}
+
+package "Backend Layer"{
+[API Server]
+[Authentification Service]
+[Media Search Service]
+[Data Handling Service]
+
+[API Server] --> [Authentification Service]
+[API Server] --> [Media Search Service]
+[API Server] --> [Data Handling Service]
+}
+
+package "OpenVerse API Integration" {
+[OpenVerse API (External)]
+}
+
+package "Database" {
+[User Data]
+[Recent Search History]
+}
+
+[GUI] --> [API Server] : HTTP Requests
+[API Server] --> [OpenVerse API (External)] : API Calls
+[API Server] --> [Database] : Database Queries
+[OpenVerse API (External)] --> [API Server] : Data Retrieval
+[Database] --> [API Server] : Data Delivery
+
+[User Data] --> [API Server] 
+[Recent Search History] --> [API Server]
+
+
+@enduml
