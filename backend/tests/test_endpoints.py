@@ -6,8 +6,8 @@ def test_get_contacts(client, sample_contacts):
     response = client.get('/contacts')
     data = json.loads(response.data)
 
-    # assert response.status_code == 200
-    assert response.status_code == 404
+    assert response.status_code == 200
+    # assert response.status_code == 404
     assert len(data['contacts']) == 3
     assert data['contacts'][0]['firstName'] == 'John'
 
