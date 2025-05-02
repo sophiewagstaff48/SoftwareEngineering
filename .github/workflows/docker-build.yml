@@ -30,7 +30,7 @@ jobs:
       - name: Build and push backend image
         uses: docker/build-push-action@v5 #t sophiewagstaff48/backend-app:latest ./backend
         with:
-          content: ./backend # Path to backend Dockerfile context
+          content: backend # Path to backend Dockerfile context
           push: true # Actually push the image
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-app:latest # Use Docker Hub username from secrets
         # Replace 'myusername' with your Docker Hub username or another identifier
