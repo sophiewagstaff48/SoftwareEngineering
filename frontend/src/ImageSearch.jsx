@@ -4,6 +4,10 @@ const ImageSearch = () => {
     const [query, setQuery] = useState("");
     const [images, setImages] = useState([]);  // Initialize as an empty array instead of undefined
     const [error, setError] = useState(null);
+    const [history, setHistory] = useState([]);
+    const [showHistory, setShowHistory] = useState([]);
+    const [filter, setFilter] = useState("");
+
 
     const handleSearch = async () => {
         try {
@@ -28,7 +32,7 @@ const ImageSearch = () => {
             console.error("Error fetching images:", e);
             setError("Error fetching images. Please try again.");
             setImages([]);  // Set as empty array on error
-        }
+        } 
     };
 
     return (
