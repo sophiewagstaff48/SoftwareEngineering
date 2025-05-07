@@ -36,66 +36,40 @@ const Register = ({ setActiveTab }) => {
     }
   };
 
-
   return (
-    <div style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "100vh",
-      backgroundColor: "#f0f0f0"
-    }}>
-      <form onSubmit={handleRegister} style={{
-        backgroundColor: "white",
-        padding: "20px",
-        borderRadius: "8px",
-        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-        width: "300px"
-      }}>
-        <h2>Register</h2>
-
-        <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="username">Username:</label><br />
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={{ width: "100%" }}
-          />
-        </div>
-
-        <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="email">Email:</label><br />
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%" }}
-          />
-        </div>
-
-        <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="password">Password:</label><br />
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%" }}
-          />
-        </div>
-
-        <button type="submit" style={{ width: "100%", marginBottom: "10px" }}>
-          Register
-        </button>
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {success && <p style={{ color: "green" }}>{success}</p>}
+    <div className="login-wrapper">
+      <form className="login-form" onSubmit={handleRegister}>
+        <h2 className="login-title">Register</h2>
+        <input
+          type="text"
+          placeholder="Username"
+          className="login-input"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          className="login-input"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className="login-input"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        {error && <p className="login-error">{error}</p>}
+        {success && <p className="login-success">{success}</p>}
+        <button type="submit" className="login-button">Register</button>
 
         <p style={{ textAlign: "center" }}>
-          Already have an account?{" "}
+          Already have and account? {" "}
           <button type="button" onClick={() => setActiveTab("login")}>
             Login here
           </button>
@@ -103,41 +77,74 @@ const Register = ({ setActiveTab }) => {
       </form>
     </div>
   );
-  // return (
-  //   <div className="login-wrapper">
-  //     <form className="login-form" onSubmit={handleRegister}>
-  //       <h2 className="login-title">Register</h2>
-  //       <input
-  //         type="text"
-  //         placeholder="Username"
-  //         className="login-input"
-  //         value={username}
-  //         onChange={(e) => setUsername(e.target.value)}
-  //         required
-  //       />
-  //       <input
-  //         type="email"
-  //         placeholder="Email"
-  //         className="login-input"
-  //         value={email}
-  //         onChange={(e) => setEmail(e.target.value)}
-  //         required
-  //       />
-  //       <input
-  //         type="password"
-  //         placeholder="Password"
-  //         className="login-input"
-  //         value={password}
-  //         onChange={(e) => setPassword(e.target.value)}
-  //         required
-  //       />
-  //       {error && <p className="login-error">{error}</p>}
-  //       {success && <p className="login-success">{success}</p>}
-  //       <button type="submit" className="login-button">Register</button>
-  //     </form>
-  //   </div>
-  // );
 
 };
 
 export default Register;
+  // return (
+  //   <div style={{
+  //     display: "flex",
+  //     justifyContent: "center",
+  //     alignItems: "center",
+  //     minHeight: "100vh",
+  //     backgroundColor: "#f0f0f0"
+  //   }}>
+  //     <form onSubmit={handleRegister} style={{
+  //       backgroundColor: "white",
+  //       padding: "20px",
+  //       borderRadius: "8px",
+  //       boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  //       width: "300px"
+  //     }}>
+  //       <h2>Register</h2>
+
+  //       <div style={{ marginBottom: "10px" }}>
+  //         <label htmlFor="username">Username:</label><br />
+  //         <input
+  //           type="text"
+  //           id="username"
+  //           value={username}
+  //           onChange={(e) => setUsername(e.target.value)}
+  //           style={{ width: "100%" }}
+  //         />
+  //       </div>
+
+  //       <div style={{ marginBottom: "10px" }}>
+  //         <label htmlFor="email">Email:</label><br />
+  //         <input
+  //           type="email"
+  //           id="email"
+  //           value={email}
+  //           onChange={(e) => setEmail(e.target.value)}
+  //           style={{ width: "100%" }}
+  //         />
+  //       </div>
+
+  //       <div style={{ marginBottom: "10px" }}>
+  //         <label htmlFor="password">Password:</label><br />
+  //         <input
+  //           type="password"
+  //           id="password"
+  //           value={password}
+  //           onChange={(e) => setPassword(e.target.value)}
+  //           style={{ width: "100%" }}
+  //         />
+  //       </div>
+
+  //       <button type="submit" style={{ width: "100%", marginBottom: "10px" }}>
+  //         Register
+  //       </button>
+
+  //       {error && <p style={{ color: "red" }}>{error}</p>}
+  //       {success && <p style={{ color: "green" }}>{success}</p>}
+
+  //       <p style={{ textAlign: "center" }}>
+  //         Already have an account?{" "}
+  //         <button type="button" onClick={() => setActiveTab("login")}>
+  //           Login here
+  //         </button>
+  //       </p>
+  //     </form>
+  //   </div>
+  // );
+  

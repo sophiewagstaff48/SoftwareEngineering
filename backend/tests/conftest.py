@@ -1,6 +1,6 @@
 import pytest
 from config import app, db
-from models import Contact
+from models import User
 import main
 
 @pytest.fixture
@@ -16,16 +16,14 @@ def client():
         db.drop_all()
 
 @pytest.fixture
-def sample_contacts():
-    """Create sample contacts for testing."""
-    contacts = [
-        Contact(first_name="John", last_name="Doe", email="john@example.com"),
-        Contact(first_name="Jane", last_name="Smith", email="jane@example.com"),
-        Contact(first_name="Bob", last_name="Johnson", email="bob@example.com")
+def sample_users():
+    """Create sample users for testing."""
+    users = [
+        User(username="John", email="john@example.com", password="1234")
     ]
 
     with app.app_context():
-        for contact in contacts:
-            db.session.add(contact)
+        for user in users:
+            db.session.add(user)
         db.session.commit()
-    return contacts
+    return users

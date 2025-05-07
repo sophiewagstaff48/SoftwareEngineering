@@ -13,7 +13,7 @@ function App() {
   //const [isModalOpen, setIsModalOpen] = useState(false);
   //const [currentContact, setCurrentContact] = useState({});
   //const [currentUser, setCurrentUser] = useState({});
-  const [activeTab, setActiveTab] = useState('login');
+  const [activeTab, setActiveTab] = useState('register');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = async () => {
@@ -32,25 +32,28 @@ function App() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
             <div>
               <button onClick={() => setActiveTab("images")}>Image Search</button>
-              <button onClick={() => setActiveTab("audio")}>Audio Search</button>
+
             </div>
             <button onClick={handleLogout}>Logout</button>
           </div>
 
           {activeTab === "images" && <ImageSearch />}
-          {activeTab === "audio" && <AudioSearch />}
+
         </>
       )}
-      {activeTab === "login" && (
-        <Login setActiveTab={setActiveTab} setIsLoggedIn={setIsLoggedIn} />
-      )}
-
       {activeTab === "register" && (
         <Register setActiveTab={setActiveTab} />
       )}
 
+      {activeTab === "login" && (
+        <Login setActiveTab={setActiveTab} setIsLoggedIn={setIsLoggedIn}/>
+      )}
+
     </>
   );
+}
+
+export default App;
   // return (
   //   <div className="app-container">
   //     <nav className="navbar">
@@ -218,6 +221,3 @@ function App() {
       
   //   </>
   // );
-}
-
-export default App;

@@ -5,11 +5,50 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from OpenverseAPIClient import OpenverseClient
 from flask_cors import CORS
 
-CORS(app)  # Enable CORS for all routes
+CORS(app, supports_credentials=True, origins=["http://localhost:5173"])  # Enable CORS for all routes
 
 ov_client = OpenverseClient()
 
 #image search
+# @app.route("/search_images", methods=["GET"])
+# def search_images():
+#     """
+#     Endpoint to search for images using the OpenVerse API
+#     Query parameters:
+#     - q: Search query (required)
+#     - page: Page number (default: 1)
+#     - page_size: Results per page (default: 20)
+#     - license: Filter by license type
+#     - creator: Filter by creator
+#     - tags: Comma-separated list of tags
+#     """
+#     query = request.args.get("q")
+#     if not query:
+#         return jsonify({"error": "Search query is required"}), 400
+
+#     page = request.args.get("page", 1, type=int)
+#     page_size = request.args.get("page_size", 20, type=int)
+#     license_type = request.args.get("license")
+#     creator = request.args.get("creator")
+#     source = request.args.get("source")
+#     extension = request.args.get("extension")
+#     # Handle tags as a comma-separated list
+#     tags = request.args.get("tags")
+#     if tags:
+#         tags = tags.split(",")
+
+#     results = ov_client.search_images(
+#         query=query,
+#         page=page,
+#         page_size=page_size,
+#         license_type=license_type,
+#         source=source,
+#         extension=extension,
+#         creator=creator,
+#         tags=tags
+#     )
+
+#     return jsonify(results)
 @app.route("/search_images", methods=["GET"])
 def search_images():
     """
@@ -30,9 +69,7 @@ def search_images():
     page_size = request.args.get("page_size", 20, type=int)
     license_type = request.args.get("license")
     creator = request.args.get("creator")
-    source = request.args.get("source")
-    extension = request.args.get("extension")
-    tags = request.args.get("tags")
+
     # Handle tags as a comma-separated list
     tags = request.args.get("tags")
     if tags:
@@ -43,13 +80,12 @@ def search_images():
         page=page,
         page_size=page_size,
         license_type=license_type,
-        source=source,
-        extension=extension,
         creator=creator,
         tags=tags
     )
 
     return jsonify(results)
+
 
 #create user
 @app.route("/register", methods=["POST"])
@@ -72,25 +108,15 @@ def create_user():
 
     return jsonify({"message": "User created."}), 201
 
-# @app.route("/create_user", methods=["POST"])
-# def create_users():
-#     username = request.json.get("userName")
-#     email = request.json.get("email")
-#     password = request.json.get("password")
-
-#     if not username or not email or not password:
-#         return jsonify({"message": "Username, email, and password are required."}), 400
+@app.route("/currentUser", methods=["GET"])
+def get_current_user():
+    if "user_id" not in session:
+        return jsonify({"message": "Not logged in."}), 401
     
-#     if User.query.filter((User.esername == username) | (User.email == email)).first():
-#         return jsonify({"message": "User with that name or email already exists."}), 400
-    
-#     new_user = User(username=username, email=email)
-#     new_user.set_password(password)
+    user = User.query.get(session["user_id"])
+    return jsonify(user.to_json()), 200
 
-#     db.session.add(new_user)
-#     db.session.commit()
 
-#     return jsonify({"message": "User created successfully"}), 201
 
 #login a user
 @app.route("/login", methods=["POST"])
@@ -156,7 +182,7 @@ def search_history():
         media_type = request.args.get("media_type")
         query = SearchHistory.query.filter_by(user_id=session["user_id"])
         if media_type:
-            query = query.filter_by(media_type=media_type)
+            query = query.filter_by(media_type= data.get("media_type"))
         
         query.delete()
         db.session.commit()
@@ -199,93 +225,3 @@ if __name__ == "__main__":
         db.create_all()
 
     app.run(host="0.0.0.0", port=5000, debug=True)
-# @app.route("/update_user/<int:user_id>", methods=["PATCH"])
-# def update_user(user_id):
-#     user = User.query.get(user_id)
-#     if not user:
-#         return jsonify({"message": "User not found"}), 404
-
-#     data = request.json
-#     username = data.get("username")
-#     email = data.get("email")
-
-#     if username:
-#         user.username = username
-#     if email:
-#         user.email = email
-
-#     db.session.commit()
-
-#     return jsonify({"message": "User updated successfully"}), 200
-
-
-# @app.route("/delete_user/<int:user_id>", methods=["DELETE"])
-# def delete_user(user_id):
-#     user = User.query.get(user_id)
-
-#     if not user:
-#         return jsonify({"message": "User not found"}), 404
-
-#     db.session.delete(user)
-#     db.session.commit()
-
-#     return jsonify({"message": "User deleted successfully"}), 200
-
-
-
-# @app.route("/contacts", methods=["GET"])
-# def get_contacts():
-#     contacts = Contact.query.all()
-#     json_contacts = list(map(lambda x: x.to_json(), contacts))
-#     return jsonify({"contacts": json_contacts})
-
-
-# @app.route("/create_contact", methods=["POST"])
-# def create_contact():
-#     first_name = request.json.get("firstName")
-#     last_name = request.json.get("lastName")
-#     email = request.json.get("email")
-
-#     if not first_name or not last_name or not email:
-#         return (
-#             jsonify({"message": "You must include the first name, last name and email"}),
-#             400,
-#         )
-
-#     new_contact = Contact(first_name=first_name, last_name=last_name, email=email)
-#     try:
-#         db.session.add(new_contact)
-#         db.session.commit()
-#     except Exception as e:
-#         return jsonify({"message": str(e)}), 400
-
-#     return jsonify({"message": "User created!"}), 201
-
-
-# @app.route("/update_contact/<int:user_id>", methods=["PATCH"])
-# def update_contact(user_id):
-#     contact = Contact.query.get(user_id)
-#     if not contact:
-#         return jsonify({"message": "User not found"}), 404
-
-#     data = request.json
-#     contact.first_name = data.get("firstName", contact.first_name)
-#     contact.last_name = data.get("lastName", contact.last_name)
-#     contact.email = data.get("email", contact.email)
-
-#     db.session.commit()
-
-#     return jsonify({"message": "User updated"}), 200
-
-
-# @app.route("/delete_contact/<int:user_id>", methods=["DELETE"])
-# def delete_contact(user_id):
-#     contact = Contact.query.get(user_id)
-
-#     if not contact:
-#         return jsonify({"message": "User not found"}), 404
-
-#     db.session.delete(contact)
-#     db.session.commit()
-
-#     return jsonify({"message": "User deleted"}), 200
