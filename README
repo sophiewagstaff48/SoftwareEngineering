@@ -1,5 +1,31 @@
 # Use Case Diagram
 
-![use_case_diagram](http://www.plantuml.com/plantuml/uml/RS_1JiCm30RWUvx2sdr5h3iYD3JWn6dJ7i1AlSvQcbIE2weGxqvI8fGX3bN_o5z-ERkeA3eDpZWwAsW0uVwYqB6GLGxUn2lx4GK76D5UiQUZpeuWZz7tZWnQ3GAhKoHP0KQOKZ2_OtWQHySMSnTy6iXZYv5WjHT2fRi3zHoL1D1tWDQ6oUlISzhVr_mjzC1Umn-pgSsHKEm5pa5We8wncBOs1tfd-e1HqZzC4U9oXsAnMrFZLtPAfQp8nRtSxlRCSNGu_xW2DZU072cL1hXmr21pWQtvCWaAhDUF-T7rOMFILt9RvRHbaj0q2yg75XwQ9kzLvNnx-qzkpOvyDmtk6m00)
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor "User" as user
+rectangle Application {
+  usecase "Create/Register and account" as UC1
+  usecase "Log into account" as UC2
+  usecase "Search for media" as UC3
+  usecase "Review previous searches" as UC4
+
+  usecase "Filter media search" as EC1
+  usecase "Display media" as EC2
+  usecase "Delete search history" as EC3
+}
+user --> UC1
+user --> UC2
+UC2 --> UC3
+UC2 --> UC4
+
+UC1 ..> UC2
+
+UC3 <.. EC1
+UC3 <.. EC2
+UC4 <.. EC2
+UC4 <.. EC3
+@enduml
+
 
 
