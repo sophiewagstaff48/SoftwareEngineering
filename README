@@ -1,1 +1,31 @@
+# Use Case Diagram
+
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor "User" as user
+rectangle Application {
+  usecase "Create/Register and account" as UC1
+  usecase "Log into account" as UC2
+  usecase "Search for media" as UC3
+  usecase "Review previous searches" as UC4
+
+  usecase "Filter media search" as EC1
+  usecase "Display media" as EC2
+  usecase "Delete search history" as EC3
+}
+user --> UC1
+user --> UC2
+UC2 --> UC3
+UC2 --> UC4
+
+UC1 ..> UC2
+
+UC3 <.. EC1
+UC3 <.. EC2
+UC4 <.. EC2
+UC4 <.. EC3
+@enduml
+
+
 

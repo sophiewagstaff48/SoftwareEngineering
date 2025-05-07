@@ -4,6 +4,10 @@ const ImageSearch = () => {
     const [query, setQuery] = useState("");
     const [images, setImages] = useState([]);  // Initialize as an empty array instead of undefined
     const [error, setError] = useState(null);
+    const [history, setHistory] = useState([]);
+    const [showHistory, setShowHistory] = useState([]);
+    const [filter, setFilter] = useState("");
+
 
     const handleSearch = async () => {
         try {
@@ -28,34 +32,41 @@ const ImageSearch = () => {
             console.error("Error fetching images:", e);
             setError("Error fetching images. Please try again.");
             setImages([]);  // Set as empty array on error
-        }
+        } 
     };
 
+
     return (
-        <div>
-            <h2>Image Search</h2>
+        <div className="search-wrapper">
+          <div className="search-bar">
+            <h2 className="search-title">Image Search</h2>
             <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search for images..."
+              type="text"
+              className="search-input"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search for images..."
             />
-            <button onClick={handleSearch}>Search</button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
-                {images.length > 0 ? (
-                    images.map((image, index) => (
-                        <div key={index}>
-                            <img src={image.url} alt={image.title} style={{ maxWidth: "100%" }} />
-                            <p>{image.title}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>No images to display. Try searching for something!</p>
-                )}
-            </div>
+            <button onClick={handleSearch} className="search-button">
+              Search
+            </button>
+            {error && <p className="search-error">{error}</p>}
+          </div>
+    
+          <div className="image-grid">
+            {images.length > 0 ? (
+              images.map((image, index) => (
+                <div key={index} className="image-card">
+                  <img src={image.url} alt={image.title} className="image-thumbnail" />
+                  <p className="image-title">{image.title}</p>
+                </div>
+              ))
+            ) : (
+              <p className="no-results">No images to display. Try searching for something!</p>
+            )}
+          </div>
         </div>
-    );
+      );
 };
 
 export default ImageSearch;
